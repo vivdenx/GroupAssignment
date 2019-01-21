@@ -46,32 +46,32 @@ def process_csv(file, header):
 
 if __name__ == "__main__":
     header = read_header()
-    athletes = []
-    for year in range(1800,2001):
-        data = process_csv(str(year), header)
-        for person in data:
-            if 'description' in person and 'ice hockey' in str(person['description']).lower():
-                dict_athlete={}
-                if 'rdf-schema#label' in person:
-                    dict_athlete['name']=person['rdf-schema#label']
-                if 'birthYear' in person:
-                    dict_athlete['birthYear']=person['birthYear']
-                if 'birthDate' in person:
-                    dict_athlete['birthDate']=person['birthDate']
-                if 'rdf-schema#comment' in  person:
-                    descriptionWords = person['rdf-schema#comment'].lower().split()
-                    if 'he' in descriptionWords:
+    athletes = []# make list to fill with dictionaries
+    for year in range(1800,2001): #For loop to go through each year in range 1800-2001(not including 2001)
+        data = process_csv(str(year), header)#this was already in the code
+        for person in data:# for loop to go through each person in the data 
+            if 'description' in person and 'ice hockey' in str(person['description']).lower():#if there is a description entry, and if it has ice hockey in it. #Make description to string because it gave an integer error 
+                dict_athlete={} # make dictionary to fill for each hockey player
+                if 'rdf-schema#label' in person:# If there is an entry for this
+                    dict_athlete['name']=person['rdf-schema#label'] # then save it as name in dictionary
+                if 'birthYear' in person: # if there is a birthyear
+                    dict_athlete['birthYear']=person['birthYear']# then add it to dictionary
+                if 'birthDate' in person:# if there is a birthdate
+                    dict_athlete['birthDate']=person['birthDate']#then add it to dictionary
+                if 'rdf-schema#comment' in  person:# if there is an entry for this
+                    descriptionWords = person['rdf-schema#comment'].lower().split() # then split comment in words
+                    if 'he' in descriptionWords: #If he is in the comment then we take it as a male
                         dict_athlete['gender']='male'
-                    elif 'she' in descriptionWords:
+                    elif 'she' in descriptionWords: # if she is in the comment then we take it as a female
                         dict_athlete['gender']='female'
-                if 'birthPlace_label' in person:
-                    dict_athlete['birthplace']=person['birthPlace_label']
+                if 'birthPlace_label' in person: # if there is a brithplace entry 
+                    dict_athlete['birthplace']=person['birthPlace_label'] # then add it to dictionary
                 
-                athletes.append(dict_athlete)
+                athletes.append(dict_athlete)# append the dictionary to the list of dictionary
                 
     
     
-
+# save into csv
 import csv
 
 header = ['name', 'birthYear', 'birthDate', 'gender', 'birthplace']
